@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MigoTest1</string>
+
+    <string name="menu_refresh">Refresh</string>
 </resources>

@@ -5,6 +5,8 @@ import android.net.Network
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.morshues.migotest1.databinding.ActivityMainBinding
@@ -21,11 +23,11 @@ class MainActivity : AppCompatActivity() {
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            mApi.setPublic(true)
+            mApi.setPublic(false)
         }
 
         override fun onLost(network: Network) {
-            mApi.setPublic(false)
+            mApi.setPublic(true)
         }
     }
 
@@ -42,6 +44,22 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.refresh -> {
+                updateResult()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun initBinding() {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(this),
@@ -50,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             false
         )
 
-        updateResult()
+        binding.response = "use refresh icon to fetch data"
     }
 
     private fun updateResult() {

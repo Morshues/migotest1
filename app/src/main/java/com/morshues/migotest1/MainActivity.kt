@@ -34,7 +34,12 @@ class MainActivity : AppCompatActivity() {
         initBinding()
         setContentView(binding.root)
 
-        NetworkUtils.registerWifiChange(this, networkCallback)
+        NetworkUtils.registerWifiCallback(this, networkCallback)
+    }
+
+    override fun onDestroy() {
+        NetworkUtils.unregisterWifiCallback(this, networkCallback)
+        super.onDestroy()
     }
 
     private fun initBinding() {

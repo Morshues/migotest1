@@ -6,7 +6,10 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 
 object NetworkUtils {
-    fun registerWifiChange(context: Context, networkCallback: ConnectivityManager.NetworkCallback) {
+    fun registerWifiCallback(
+        context: Context,
+        networkCallback: ConnectivityManager.NetworkCallback
+    ) {
         val connectivityManager
                 = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -14,5 +17,14 @@ object NetworkUtils {
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .build()
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+    }
+
+    fun unregisterWifiCallback(
+        context: Context,
+        networkCallback: ConnectivityManager.NetworkCallback
+    ) {
+        val connectivityManager
+                = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 }
